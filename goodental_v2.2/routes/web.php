@@ -32,4 +32,6 @@ Route::resource('citas', 'Admin\CitasController');
 Route::get('cliente', 'Admin\ClientesController@create')->name('cli_index');
 Route::get('doctor', 'Admin\DoctoresController@create')->name('doc_index');
 Route::get('tratamiento', 'Admin\TratamientosController@create')->name('treat_index');
+Route::get('livesearchpatient','Admin\ClientesController@patientSearch');
+Route::get('tratamiento_cliente', 'Admin\TratamientosController@assignmentTreatmentPatient');
 Route::get('livesearch','Admin\ClientesController@liveSearch');

@@ -81,6 +81,7 @@
                           <td>
                             <!-- <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a> -->
                             <a href="{{ route('tratamientos.edit', $treatment->id) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
+                            <a href="{{ route('tratamientos.show', $treatment->id) }}" class="btn btn-info btn-xs"><i class="fa fa-check"></i> Asignar </a>
                           </td>
                         </tr>
                         @endforeach

@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 
 //add
 use App\Http\Requests\CreateCustomerRequest;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use App\Occupation;
 use App\Customer;
-
+use App\Treatment;
 use File;
 
 class ClientesController extends Controller
@@ -51,6 +51,22 @@ class ClientesController extends Controller
             $customers = Customer::where('name','LIKE',"%{$search}%")
                            ->get();
             return view('clientes.livesearchajax', compact('customers'));
+        }
+    }
+
+    public function patientSearch(Request $request)
+    { 
+        $search = $request->id;
+
+        if (is_null($search))
+        {
+           return view('clientes.livesearch');        
+        }
+        else
+        {
+            $customers = Customer::where('name','LIKE',"%{$search}%")
+                           ->get();
+            return view('tratamientos.search_assignment_patient_ajax', compact('customers'));
         }
     }
     /**
@@ -106,8 +122,22 @@ class ClientesController extends Controller
     {
 
         $customer = Customer::find($id);
+        $numTreatments=0;
+        //$treatments = Treatment::orderBy('name', 'ASC')->get();
 
-        return view('clientes.profile', compact('customer') );
+        $treatments = DB::table('customers')
+            ->join('treatments_customers', 'treatments_customers.customers_id', '=', 'customers.id')
+            ->join('treatments', 'treatments_customers.treatments_id', '=', 'treatments.id')
+            ->join('users', 'treatments_customers.users_id', '=', 'users.id')
+            ->select('treatments.name', 'treatments.amount', 'treatments.description', 'users.name as username')->where('treatments_customers.customers_id', '=', $id)
+            ->get();
+
+        if(isset($treatments)){
+            $numTreatments=count($treatments);
+        }
+        
+        //return view('tratamientos_list.index', compact('treatments','numTreatments') );
+        return view('clientes.profile', compact('customer','treatments','numTreatments') );
     }
 
     /**

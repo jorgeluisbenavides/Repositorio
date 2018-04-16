@@ -123,6 +123,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
+
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src=" {{ asset('images/img.png') }} " alt=""> {{ Auth::user()->name }}
                     <span class=" fa fa-angle-down"></span>
@@ -271,6 +272,50 @@
                         });
                    }
                });  
+
+
+
+                $("#searchpatient").keyup(function(){
+                   var str=  $("#searchpatient").val();
+                   if(str == "") {
+                           $( "#patientToassign" ).html("<b>La información se listará aquí...</b>"); 
+                   }else {
+                           $.get( "{{ url('livesearchpatient?id=') }}"+str, function( data ) {
+                               $( "#patientToassign" ).html( data );  
+                        });
+                   }
+               });
+
+               $("#AssignToPatient").click(function(){
+                      var idCustomer = $('input:radio[name=idCusomer]:checked').val()
+                      var idTreatment = $("#idTreatment").text();
+                      var idUser = $("#idUser").text();
+                    console.log("C:"+idCustomer+", T:"+idTreatment+", U:"+idUser);
+
+                      if(idCustomer==undefined){
+                          alert("Seleccione un Paciente...");
+                      }else { 
+                         $.ajax({
+                            type: 'GET',
+                            url: '/tratamiento_cliente',
+                            data:{
+                              'idCustomer':idCustomer,
+                              'idTreatment':idTreatment,
+                              'idUser':idUser
+                              },
+                              dataType: 'json',
+                            success: function (response) {
+                              
+                              $('input[type="text"]').val('');
+                              
+                              $("#patientToassign").empty();
+                              alert(response);
+                            }
+                        });
+                      }
+                      
+                   
+               })  
             }); 
     </script>
     @yield('js')

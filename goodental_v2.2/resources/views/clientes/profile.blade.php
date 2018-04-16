@@ -129,75 +129,42 @@
                         <div id="myTabContent" class="tab-content">
                           <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
+                            @if(isset($numTreatments))
+                              <h2>{{$numTreatments}} Tratamientos Agregados</h2>
+                            @else
+                              <h2>Sin Tratamientos Agregados</h2>
+                            @endif
+
+
                             <!-- start recent activity -->
                             <ul class="messages">
                               <li>
-                                <a href="" class="label label-primary"> Agregar nuevo tratamiento </a>
+                                <a href="{{ route('tratamientos.index') }}" class="label label-primary"> Agregar nuevo tratamiento </a>
                               </li>
-                              <li>
-                                <img src=" {{ asset('images/img.jpg') }} " class="avatar" alt="Avatar">
-                                <div class="message_date">
-                                  <h3 class="date text-info">24</h3>
-                                  <p class="month">May</p>
-                                </div>
-                                <div class="message_wrapper">
-                                  <h4 class="heading">Nombre del tratamiento</h4>
-                                  <blockquote class="message">Descripcion del tratamiento... raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                  <br />
-                                  <p class="url">
-                                    <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                    <a href="#"><i class="fa fa-user"></i> Ana Maria Perez Morales </a>
-                                  </p>
-                                </div>
-                              </li>
-                              <li>
-                                <img src=" {{ asset('images/img.jpg') }} " class="avatar" alt="Avatar">
-                                <div class="message_date">
-                                  <h3 class="date text-error">21</h3>
-                                  <p class="month">May</p>
-                                </div>
-                                <div class="message_wrapper">
-                                  <h4 class="heading">Nombre del tratamiento</h4>
-                                  <blockquote class="message">Descripcion del tratamiento... raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                  <br />
-                                  <p class="url">
-                                    <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                    <a href="#"><i class="fa fa-user"></i> Juan Cesar Reyes </a>
-                                  </p>
-                                </div>
-                              </li>
-                              <li>
-                                <img src=" {{ asset('images/img.jpg') }} " class="avatar" alt="Avatar">
-                                <div class="message_date">
-                                  <h3 class="date text-info">14</h3>
-                                  <p class="month">Ene</p>
-                                </div>
-                                <div class="message_wrapper">
-                                  <h4 class="heading">Nombre del tratamiento</h4>
-                                  <blockquote class="message">Descripcion del tratamiento... raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                  <br />
-                                  <p class="url">
-                                    <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                    <a href="#"><i class="fa fa-user"></i> Guadalupe Italo Paz </a>
-                                  </p>
-                                </div>
-                              </li>
-                              <li>
-                                <img src=" {{ asset('images/img.jpg') }} " class="avatar" alt="Avatar">
-                                <div class="message_date">
-                                  <h3 class="date text-error">9</h3>
-                                  <p class="month">Ene</p>
-                                </div>
-                                <div class="message_wrapper">
-                                  <h4 class="heading">Nombre del tratamiento</h4>
-                                  <blockquote class="message">Descripcion del tratamiento... raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                  <br />
-                                  <p class="url">
-                                    <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                    <a href="#"><i class="fa fa-user"></i> Feliciana Reyes Fortoso </a>
-                                  </p>
-                                </div>
-                              </li>
+                              <!--Aqui va el siclo que mostrara los tratamientos del paciente-->
+                               @if(isset($treatments))
+                                    @foreach ($treatments as $treatment)
+                                        
+                                        <li>
+                                          <!-- <img src=" {{ asset('images/img.jpg') }} " class="avatar" alt="Avatar"> -->
+                                          <div class="message_date">
+                                            <h3 class="date text-info"><small>$</small>{{$treatment->amount}}</h3>
+                                            <!--<p class="month">May</p>-->
+                                          </div>
+                                          <div class="message_wrapper">
+                                            <h4 class="heading">{{$treatment->name}}</h4>
+                                            <blockquote class="message">{{$treatment->description}}</blockquote>
+                                            <br />
+                                            <p class="url">
+                                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                              <a href="#"><i class="fa fa-user"></i> {{$treatment->username}} </a>
+                                            </p>
+                                          </div>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <h2>No existen Tratamientos<small> Registre alguno.</small></h2>
+                                @endif 
 
                             </ul>
                             <!-- end recent activity -->

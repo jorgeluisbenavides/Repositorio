@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTreatmentRequest;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Treatment;
 
@@ -61,9 +61,26 @@ class TratamientosController extends Controller
      */
     public function show($id)
     {
-        //
+        $treatment = Treatment::find($id);
+
+        return view('tratamientos.assignment_treatment_patient', compact('treatment'));
     }
 
+    public function assignmentTreatmentPatient(Request $request){
+       $msg="";
+       $fech=date('Y-m-d h:i:s');
+       $id = DB::table('treatments_customers')->insertGetId( 
+        ['treatments_id' => $request->idTreatment, 
+        'customers_id' => $request->idCustomer,
+         'users_id' => $request->idUser,
+         'created_at' => $fech,
+         'updated_at' => $fech ]
+        );
+       if(isset($id)){
+            $msg="Asignación Exitosa..";
+       }
+        return response()->json($msg);
+    }
     /**
      * Show the form for editing the specified resource.
      *
